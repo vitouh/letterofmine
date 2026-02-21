@@ -75,20 +75,15 @@ let stage = 0;
 
 rose.onclick = function() {
 
-  // First click → pulse
   if (stage === 0) {
     rose.classList.add("pulse");
     stage = 1;
     return;
   }
 
-  // Second click → start slideshow
   if (stage === 1) {
     stage = 2;
-
     rose.style.display = "none";
-
-    // Music starts immediately
     music.play();
 
     let delay = 0;
@@ -98,20 +93,19 @@ rose.onclick = function() {
         if (index > 0) slides[index - 1].classList.remove("show");
         slide.classList.add("show");
       }, delay);
-      delay += 4000; // each image 4s
+
+      delay += 4000;
     });
 
-    // 1-second pause after 4th image
+    // After full 4th image duration → fade it out
     setTimeout(() => {
       slides[3].classList.remove("show");
     }, delay);
 
-    delay += 1000; // 1-second pause
-
-    // Show letter after pause
+    // 1-second pause after fade out
     setTimeout(() => {
       letter.classList.add("show");
-    }, delay);
+    }, delay + 1000);
   }
 };
 </script>
