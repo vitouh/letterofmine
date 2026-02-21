@@ -48,9 +48,13 @@
 </head>
 <body>
 
-<img id="rose" src="IMG_5465.png" alt="rose">
-<img id="letterImg" src="IMG_5645.png" alt="letter">
+<!-- Rose in the center -->
+<img id="rose" src="IMG_5645.png" alt="rose">
 
+<!-- Letter image -->
+<img id="letterImg" src="IMG_5647.jpeg" alt="letter">
+
+<!-- Music -->
 <audio id="bgMusic" src="song.mp3"></audio>
 
 <script>
@@ -59,7 +63,7 @@ const letterImg = document.getElementById("letterImg");
 const audio = document.getElementById("bgMusic");
 
 rose.addEventListener("click", () => {
-  // Pulse 3 times while fading in letter at the same time
+  // Pulse 3 times
   rose.style.animation = "pulse 1.2s ease-in-out 3";
   rose.style.animationFillMode = "forwards";
 
@@ -69,11 +73,11 @@ rose.addEventListener("click", () => {
     audio.play();                        // play music
   }, 1200); // 1 pulse delay
 
-  // Remove rose after pulses
+  // Remove rose after 3 pulses
   setTimeout(() => {
     rose.style.opacity = "0";
     setTimeout(() => { rose.style.display = "none"; }, 600);
-  }, 3600); // after 3 pulses
+  }, 3600); // 3 pulses
 });
 </script>
 
