@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Letter</title>
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      background-color: black;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Merriweather', serif;
+    }
+
+    a {
+      color: white;
+      text-decoration: none;
+      font-size: 2rem;
+      cursor: pointer;
+    }
+
+    a:hover {
+      opacity: 0.7;
+    }
+  </style>
+</head>
+<body>
+
+<a onclick="openLetter()">letter</a>
+
+<audio id="bgMusic" src="song.mp3"></audio>
+
+<script>
+function openLetter() {
+  const audio = document.getElementById("bgMusic");
+  audio.play();
+  window.open("letter.pdf", "_blank");
+}
+</script>
+
+</body>
+</html>
