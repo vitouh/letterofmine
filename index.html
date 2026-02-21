@@ -1,80 +1,94 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <title>Letter</title>
-  <style>
-    body {
-      margin: 0;
-      height: 100vh;
-      background: black;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      overflow: hidden;
-    }
+<meta charset="UTF-8">
+<title>Letter</title>
 
-    #rose {
-      width: 130px;
-      cursor: pointer;
-      transition: opacity 0.6s ease;
-    }
+<style>
+body {
+  margin: 0;
+  height: 100vh;
+  background: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
 
-    /* Pulse exactly 3 times */
-    @keyframes pulse3 {
-      0% { transform: scale(1); }
-      16.6% { transform: scale(1.15); }
-      33.3% { transform: scale(1); }
-      50% { transform: scale(1.15); }
-      66.6% { transform: scale(1); }
-      83.3% { transform: scale(1.15); }
-      100% { transform: scale(1); }
-    }
+#rose {
+  width: 150px;
+  cursor: pointer;
+  transition: opacity 1s ease;
+}
 
-    #letterImg {
-      position: fixed;
-      max-width: 80%;
-      max-height: 80%;
-      opacity: 0;
-      transform: scale(0.95);
-      transition: opacity 1.5s ease, transform 1.5s ease;
-      pointer-events: none;
-    }
+.slide {
+  position: fixed;
+  max-width: 80%;
+  max-height: 80%;
+  opacity: 0;
+  transform: scale(1);
+  transition: opacity 2s ease, transform 6s ease;
+}
 
-    #letterImg.visible {
-      opacity: 1;
-      transform: scale(1);
-      pointer-events: auto;
-    }
-  </style>
+.show {
+  opacity: 1;
+  transform: scale(1.08);
+}
+</style>
 </head>
 <body>
 
 <img id="rose" src="IMG_5645.png" alt="rose">
-<img id="letterImg" src="IMG_5647.jpeg" alt="letter">
 
-<audio id="bgMusic" src="song.mp3"></audio>
+<img class="slide" id="img1" src="IMG_0018.jpeg">
+<img class="slide" id="img2" src="att.lJN1aEaZPYIps0uajmESW_fqq2MwtbIaiAKoqZFc3kM.jpeg">
+<img class="slide" id="img3" src="att.FM1esYjuS4zu_N7hMkL4UKkAOGI7x6U7xnDHmOFjgFE.jpeg">
+<img class="slide" id="img4" src="IMG_1533.jpeg">
+<img class="slide" id="letter" src="IMG_5647.jpeg">
+
+<audio id="music" src="song.mp3"></audio>
 
 <script>
 const rose = document.getElementById("rose");
-const letterImg = document.getElementById("letterImg");
-const audio = document.getElementById("bgMusic");
+const music = document.getElementById("music");
+
+const slides = [
+  document.getElementById("img1"),
+  document.getElementById("img2"),
+  document.getElementById("img3"),
+  document.getElementById("img4")
+];
+
+const letter = document.getElementById("letter");
 
 rose.addEventListener("click", () => {
-  // Trigger exactly 3 pulses using CSS animation
-  rose.style.animation = "pulse3 1.8s ease-in-out forwards";
 
-  // Fade out rose after animation ends
+  rose.style.opacity = "0";
   setTimeout(() => {
-    rose.style.opacity = "0";
-    setTimeout(() => {
-      rose.style.display = "none";
+    rose.style.display = "none";
+  }, 1000);
 
-      // Fade in letter and play music
-      letterImg.classList.add("visible");
-      audio.play();
-    }, 600); // fade out duration
-  }, 1800); // duration of pulse animation
+  music.play();
+
+  let delay = 1000;
+
+  slides.forEach((slide, index) => {
+    setTimeout(() => {
+      slide.classList.add("show");
+
+      if (index > 0) {
+        slides[index - 1].classList.remove("show");
+      }
+    }, delay);
+
+    delay += 4000;
+  });
+
+  setTimeout(() => {
+    slides[3].classList.remove("show");
+    letter.classList.add("show");
+  }, delay);
+
 });
 </script>
 
