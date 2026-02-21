@@ -18,9 +18,9 @@ body {
 #rose {
   width: 150px;
   cursor: pointer;
+  transition: opacity 1s ease;
 }
 
-/* Pulse animation class */
 .pulse {
   animation: pulse 1s ease-in-out 3;
 }
@@ -36,19 +36,17 @@ body {
   max-width: 80%;
   max-height: 80%;
   opacity: 0;
-  transform: scale(1);
-  transition: opacity 2s ease, transform 6s ease;
+  transition: opacity 2s ease;
 }
 
 .show {
   opacity: 1;
-  transform: scale(1.08);
 }
 </style>
 </head>
 <body>
 
-<img id="rose" src="IMG_5645.png" alt="rose">
+<img id="rose" src="IMG_5645.png">
 
 <img class="slide" id="img1" src="IMG_0018.jpeg">
 <img class="slide" id="img2" src="att.lJN1aEaZPYIps0uajmESW_fqq2MwtbIaiAKoqZFc3kM.jpeg">
@@ -71,41 +69,67 @@ const slides = [
 
 const letter = document.getElementById("letter");
 
-/* Force pulse on page load */
-window.onload = () => {
-  rose.classList.add("pulse");
-};
+let clickStage = 0; // 0 = waiting, 1 = pulsed, 2 = playing
 
 rose.addEventListener("click", () => {
 
-  // Prevent double clicking
-  rose.style.pointerEvents = "none";
+  if (clickStage === 0) {
+    // FIRST CLICK → pulse only
+    rose.classList.add("pulse");
+    clickStage = 1;
+    return;
+  }
 
-  rose.style.opacity = "0";
-  setTimeout(() => {
-    rose.style.display = "none";
-  }, 1000);
+  if (clickStage === 1) {
+    // SECOND CLICK → start slideshow
+    clickStage = 2;
 
-  music.play();
+    rose.style.pointerEvents = "none";
+    rose.style.opacity = "0";
 
-  let delay = 1000;
-
-  slides.forEach((slide, index) => {
     setTimeout(() => {
-      slide.classList.add("show");
+      rose.style.display = "none";
+    }, 1000);
 
-      if (index > 0) {
-        slides[index - 1].classList.remove("show");
-      }
+    music.play();
+
+    let delay = 1000;
+
+    slides.forEach((slide, index) => {
+      setTimeout(() => {
+        slide.classList.add("show");
+
+        if (index > 0) {
+          slides[index - 1].classList.remove("show");
+        }
+      }, delay);
+
+      delay += 4000;
+    });
+
+    setTimeout(() => {
+      slides[3].classList.remove("show");
+      letter.classList.add("show");
     }, delay);
+  }
 
-    delay += 4000;
-  });
+});
 
-  setTimeout(() => {
-    slides[3].classList.remove("show");
-    letter.classList.add("show");
-  }, delay);
+/* RESET WHEN MUSIC ENDS */
+music.addEventListener("ended", () => {
+
+  // Hide everything
+  slides.forEach(slide => slide.classList.remove("show"));
+  letter.classList.remove("show");
+
+  // Reset rose
+  rose.style.display = "block";
+  rose.style.opacity = "1";
+  rose.style.pointerEvents = "auto";
+  rose.classList.remove("pulse");
+
+  // Reset click stage
+  clickStage = 0;
 
 });
 </script>
