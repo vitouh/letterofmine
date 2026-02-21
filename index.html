@@ -17,15 +17,7 @@
     #rose {
       width: 130px;
       cursor: pointer;
-      transition: opacity 0.6s ease;
-    }
-
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      25% { transform: scale(1.15); }
-      50% { transform: scale(1); }
-      75% { transform: scale(1.15); }
-      100% { transform: scale(1); }
+      transition: transform 0.3s ease, opacity 0.6s ease;
     }
 
     #letterImg {
@@ -58,21 +50,33 @@ const letterImg = document.getElementById("letterImg");
 const audio = document.getElementById("bgMusic");
 
 rose.addEventListener("click", () => {
-  // Pulse exactly 3 times
-  rose.style.animation = "pulse 1.2s ease-in-out 3";
-  rose.style.animationFillMode = "forwards";
+  let pulseCount = 0;
+  const maxPulses = 3;
 
-  // After pulses, fade out rose
-  setTimeout(() => {
-    rose.style.opacity = "0";
+  // Pulse 3 times
+  const pulseInterval = setInterval(() => {
+    rose.style.transform = "scale(1.15)";
     setTimeout(() => {
-      rose.style.display = "none";
+      rose.style.transform = "scale(1)";
+    }, 300); // half pulse
 
-      // Now fade in letter
-      letterImg.classList.add("visible");
-      audio.play();
-    }, 600); // allow fade out to finish
-  }, 3600); // 3 pulses * 1.2s
+    pulseCount++;
+    if (pulseCount >= maxPulses) {
+      clearInterval(pulseInterval);
+
+      // Fade out rose after last pulse
+      setTimeout(() => {
+        rose.style.opacity = "0";
+        setTimeout(() => {
+          rose.style.display = "none";
+
+          // Fade in letter and play music
+          letterImg.classList.add("visible");
+          audio.play();
+        }, 600); // wait for fade out to finish
+      }, 300); // small delay after last pulse
+    }
+  }, 600); // full pulse duration
 });
 </script>
 
