@@ -48,13 +48,9 @@
 </head>
 <body>
 
-<!-- Rose in the center -->
 <img id="rose" src="IMG_5645.png" alt="rose">
-
-<!-- Letter image -->
 <img id="letterImg" src="IMG_5647.jpeg" alt="letter">
 
-<!-- Music -->
 <audio id="bgMusic" src="song.mp3"></audio>
 
 <script>
@@ -67,17 +63,17 @@ rose.addEventListener("click", () => {
   rose.style.animation = "pulse 1.2s ease-in-out 3";
   rose.style.animationFillMode = "forwards";
 
-  // Start letter fade slightly after first pulse
-  setTimeout(() => {
-    letterImg.classList.add("visible");  // fade in letter
-    audio.play();                        // play music
-  }, 1200); // 1 pulse delay
-
-  // Remove rose after 3 pulses
+  // Fade out rose after pulses
   setTimeout(() => {
     rose.style.opacity = "0";
-    setTimeout(() => { rose.style.display = "none"; }, 600);
-  }, 3600); // 3 pulses
+    setTimeout(() => { 
+      rose.style.display = "none"; 
+
+      // Fade in letter and play music
+      letterImg.classList.add("visible");
+      audio.play();
+    }, 600); // wait for fade out to finish
+  }, 3600); // 3 pulses x 1.2s
 });
 </script>
 
