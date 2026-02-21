@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <title>Letter</title>
-
 <style>
 body {
   margin: 0;
@@ -12,13 +11,11 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  overflow: hidden;
 }
 
 #rose {
   width: 150px;
   cursor: pointer;
-  transition: opacity 1s ease;
 }
 
 .pulse {
@@ -32,11 +29,12 @@ body {
 }
 
 .slide {
-  position: fixed;
+  position: absolute;
   max-width: 80%;
   max-height: 80%;
   opacity: 0;
-  transition: opacity 2s ease;
+  transition: opacity 1.5s ease;
+  pointer-events: none;
 }
 
 .show {
@@ -69,69 +67,41 @@ const slides = [
 
 const letter = document.getElementById("letter");
 
-let clickStage = 0; // 0 = waiting, 1 = pulsed, 2 = playing
+let stage = 0;
 
-rose.addEventListener("click", () => {
+rose.onclick = function() {
 
-  if (clickStage === 0) {
-    // FIRST CLICK → pulse only
+  // First click → pulse
+  if (stage === 0) {
     rose.classList.add("pulse");
-    clickStage = 1;
+    stage = 1;
     return;
   }
 
-  if (clickStage === 1) {
-    // SECOND CLICK → start slideshow
-    clickStage = 2;
+  // Second click → start slideshow
+  if (stage === 1) {
+    stage = 2;
 
-    rose.style.pointerEvents = "none";
-    rose.style.opacity = "0";
-
-    setTimeout(() => {
-      rose.style.display = "none";
-    }, 1000);
-
+    rose.style.display = "none";
     music.play();
 
-    let delay = 1000;
+    let delay = 0;
 
     slides.forEach((slide, index) => {
       setTimeout(() => {
+        if (index > 0) slides[index - 1].classList.remove("show");
         slide.classList.add("show");
-
-        if (index > 0) {
-          slides[index - 1].classList.remove("show");
-        }
       }, delay);
-
       delay += 4000;
     });
 
+    // After slideshow, show letter (stays forever)
     setTimeout(() => {
       slides[3].classList.remove("show");
       letter.classList.add("show");
     }, delay);
   }
-
-});
-
-/* RESET WHEN MUSIC ENDS */
-music.addEventListener("ended", () => {
-
-  // Hide everything
-  slides.forEach(slide => slide.classList.remove("show"));
-  letter.classList.remove("show");
-
-  // Reset rose
-  rose.style.display = "block";
-  rose.style.opacity = "1";
-  rose.style.pointerEvents = "auto";
-  rose.classList.remove("pulse");
-
-  // Reset click stage
-  clickStage = 0;
-
-});
+};
 </script>
 
 </body>
