@@ -35,14 +35,14 @@ body {
   opacity: 0;
   transition: opacity 1.5s ease, transform 6s ease;
   pointer-events: none;
-  box-shadow: 0 0 60px rgba(255,255,255,0.5); /* emotional glow */
+  box-shadow: 0 0 60px rgba(255,255,255,0.5);
   border-radius: 8px;
   transform: scale(1);
 }
 
 .show {
   opacity: 1;
-  transform: scale(1.05); /* slow zoom for cinematic effect */
+  transform: scale(1.05);
 }
 </style>
 </head>
@@ -82,28 +82,34 @@ rose.onclick = function() {
     return;
   }
 
-  // Second click → start slideshow with short cinematic pause
+  // Second click → start slideshow
   if (stage === 1) {
     stage = 2;
 
     rose.style.display = "none";
 
-    // Start music immediately
+    // Music starts immediately
     music.play();
 
-    let delay = 1000; // short pause before first image fades in
+    let delay = 0;
 
     slides.forEach((slide, index) => {
       setTimeout(() => {
         if (index > 0) slides[index - 1].classList.remove("show");
         slide.classList.add("show");
       }, delay);
-      delay += 4000; // each image shown for 4 seconds
+      delay += 4000; // each image 4s
     });
 
-    // After slideshow, show letter forever
+    // 1-second pause after 4th image
     setTimeout(() => {
       slides[3].classList.remove("show");
+    }, delay);
+
+    delay += 1000; // 1-second pause
+
+    // Show letter after pause
+    setTimeout(() => {
       letter.classList.add("show");
     }, delay);
   }
