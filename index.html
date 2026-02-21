@@ -97,15 +97,15 @@ rose.onclick = function() {
       delay += 4000;
     });
 
-    // After full 4th image duration → fade it out
+    // Fade out 4th image after its full duration
     setTimeout(() => {
       slides[3].classList.remove("show");
     }, delay);
 
-    // 1-second pause after fade out
+    // 2-second pause before showing letter
     setTimeout(() => {
       letter.classList.add("show");
-    }, delay + 1000);
+    }, delay + 2000);
   }
 };
 </script>
