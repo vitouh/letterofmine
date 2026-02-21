@@ -15,21 +15,22 @@ body {
   overflow: hidden;
 }
 
-/* Rose */
 #rose {
   width: 150px;
   cursor: pointer;
+}
+
+/* Pulse animation class */
+.pulse {
   animation: pulse 1s ease-in-out 3;
 }
 
-/* Pulse animation */
 @keyframes pulse {
   0% { transform: scale(1); }
   50% { transform: scale(1.2); }
   100% { transform: scale(1); }
 }
 
-/* Slides */
 .slide {
   position: fixed;
   max-width: 80%;
@@ -70,7 +71,15 @@ const slides = [
 
 const letter = document.getElementById("letter");
 
+/* Force pulse on page load */
+window.onload = () => {
+  rose.classList.add("pulse");
+};
+
 rose.addEventListener("click", () => {
+
+  // Prevent double clicking
+  rose.style.pointerEvents = "none";
 
   rose.style.opacity = "0";
   setTimeout(() => {
