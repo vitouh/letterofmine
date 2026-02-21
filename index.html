@@ -3,42 +3,72 @@
 <head>
   <meta charset="UTF-8">
   <title>Letter</title>
-  <link href="https://fonts.googleapis.com/css2?family=Merriweather&display=swap" rel="stylesheet">
   <style>
     body {
       margin: 0;
       height: 100vh;
-      background-color: black;
+      background: black;
       display: flex;
       justify-content: center;
       align-items: center;
-      font-family: 'Merriweather', serif;
+      overflow: hidden;
     }
 
-    a {
-      color: white;
-      text-decoration: none;
-      font-size: 2rem;
+    #rose {
+      width: 120px;
       cursor: pointer;
+      transition: transform 0.5s ease, opacity 0.5s ease;
     }
 
-    a:hover {
-      opacity: 0.7;
+    #rose:hover {
+      transform: scale(1.1);
+    }
+
+    #pdfContainer {
+      position: fixed;
+      width: 70%;
+      height: 80%;
+      opacity: 0;
+      transition: opacity 1.5s ease;
+      pointer-events: none;
+    }
+
+    #pdfContainer iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .visible {
+      opacity: 1;
+      pointer-events: auto;
     }
   </style>
 </head>
 <body>
 
-<a onclick="openLetter()">letter</a>
+<img id="rose" src="rose.png" alt="rose">
+
+<div id="pdfContainer">
+  <iframe src="letter.pdf"></iframe>
+</div>
 
 <audio id="bgMusic" src="song.mp3"></audio>
 
 <script>
-function openLetter() {
-  const audio = document.getElementById("bgMusic");
-  audio.play();
-  window.open("letter.pdf", "_blank");
-}
+const rose = document.getElementById("rose");
+const pdf = document.getElementById("pdfContainer");
+const audio = document.getElementById("bgMusic");
+
+rose.addEventListener("click", () => {
+  rose.style.opacity = "0";        // fade out rose
+  setTimeout(() => {
+    rose.style.display = "none";
+  }, 500);
+
+  pdf.classList.add("visible");    // fade in PDF
+  audio.play();                    // play music
+});
 </script>
 
 </body>
