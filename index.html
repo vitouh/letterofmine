@@ -55,7 +55,7 @@
 </head>
 <body>
 
-<img id="rose" src="rose.PNG" alt="rose">
+<img id="rose" src="rose.png" alt="rose">
 
 <div id="pdfContainer">
   <iframe src="letter.pdf"></iframe>
@@ -69,8 +69,8 @@ const pdf = document.getElementById("pdfContainer");
 const audio = document.getElementById("bgMusic");
 
 rose.addEventListener("click", () => {
-  // Pulse 3 times before fading out
-  rose.style.animation = "pulse 1.2s ease-in-out 3"; // 3 pulses in 1.2s each
+  // Pulse 3 times
+  rose.style.animation = "pulse 1.2s ease-in-out 3";
   rose.style.animationFillMode = "forwards";
 
   // Wait for pulses to finish before showing PDF
