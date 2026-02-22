@@ -70,7 +70,7 @@ body {
   box-shadow: 0 15px 40px rgba(0,0,0,0.7);
   z-index: 50;
   cursor: pointer;
-  overflow: hidden;       /* keeps paper inside */
+  overflow: hidden;
 }
 
 .envelope.visible {
@@ -78,30 +78,17 @@ body {
   pointer-events: auto;
 }
 
+/* Envelope body sits above paper */
 .envelope-body {
   width: 100%;
   height: 100%;
   position: absolute;
   border-radius: 20px;
   background: inherit;
+  z-index: 1;
 }
 
-.flap {
-  width: 100%;
-  height: 100%;
-  background: #a37450;
-  clip-path: polygon(0 0, 100% 0, 50% 60%);
-  position: absolute;
-  transform-origin: top;
-  transition: transform 1.2s ease;
-  border-radius: 20px;
-}
-
-.envelope.open .flap {
-  transform: rotateX(180deg);
-}
-
-/* Paper inside envelope */
+/* Paper INSIDE envelope */
 .paper-inside {
   position: absolute;
   width: 80%;
@@ -113,11 +100,29 @@ body {
   border-radius: 6px;
   transition: transform 1.2s ease;
   box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-  z-index: 1;
+  z-index: 0;
 }
 
+/* Paper rises only when opened */
 .envelope.open .paper-inside {
   transform: translateX(-50%) translateY(-20px);
+}
+
+/* Flap on top */
+.flap {
+  width: 100%;
+  height: 100%;
+  background: #a37450;
+  clip-path: polygon(0 0, 100% 0, 50% 60%);
+  position: absolute;
+  transform-origin: top;
+  transition: transform 1.2s ease;
+  border-radius: 20px;
+  z-index: 2;
+}
+
+.envelope.open .flap {
+  transform: rotateX(180deg);
 }
 
 /* Final Letter */
@@ -144,8 +149,8 @@ body {
 <img class="slide" id="img4" src="IMG_1533.jpeg">
 
 <div class="envelope" id="envelope">
-  <div class="envelope-body"></div>
   <div class="paper-inside"></div>
+  <div class="envelope-body"></div>
   <div class="flap"></div>
 </div>
 
