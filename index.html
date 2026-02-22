@@ -21,7 +21,7 @@ body {
   position: relative;
 }
 
-/* Disable clicks on everything by default */
+/* Disable clicks by default */
 .slide,
 .envelope,
 #letter-jpeg {
@@ -72,7 +72,7 @@ body {
 
 .envelope.visible {
   opacity: 1;
-  pointer-events: auto; /* clickable ONLY when visible */
+  pointer-events: auto;
 }
 
 .envelope-body {
@@ -98,7 +98,26 @@ body {
   transform: rotateX(180deg);
 }
 
-/* Letter */
+/* Paper inside envelope */
+.paper-inside {
+  position: absolute;
+  width: 80%;
+  height: 85%;
+  background: #f5f2e8;
+  left: 50%;
+  bottom: 10px;
+  transform: translateX(-50%) translateY(40px);
+  border-radius: 6px;
+  transition: transform 1.2s ease;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  z-index: 1;
+}
+
+.envelope.open .paper-inside {
+  transform: translateX(-50%) translateY(-20px);
+}
+
+/* Final Letter JPEG */
 #letter-jpeg {
   position: absolute;
   max-width: 80%;
@@ -124,6 +143,7 @@ body {
 <div class="envelope" id="envelope">
   <div class="envelope-body"></div>
   <div class="flap"></div>
+  <div class="paper-inside"></div>
 </div>
 
 <img id="letter-jpeg" src="IMG_5647.jpeg">
@@ -136,9 +156,7 @@ const music = document.getElementById("music");
 const envelope = document.getElementById("envelope");
 const letter = document.getElementById("letter-jpeg");
 
-const slides = [
-  img1, img2, img3, img4
-];
+const slides = [img1, img2, img3, img4];
 
 let stage = 0;
 let envelopeStage = 0;
@@ -163,7 +181,6 @@ rose.addEventListener("click", () => {
         if (index > 0) slides[index - 1].classList.remove("show");
         slide.classList.add("show");
       }, delay);
-
       delay += 4000;
     });
 
