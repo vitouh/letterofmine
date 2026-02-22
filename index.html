@@ -94,6 +94,7 @@ body {
   border-radius: 20px;
 }
 
+/* flap rotation on open */
 .envelope.open .flap {
   transform: rotateX(180deg);
 }
@@ -147,7 +148,7 @@ const envelope = document.getElementById("envelope");
 const letterJPEG = document.getElementById("letter-jpeg");
 
 let stage = 0;
-let envelopeClicked = false;
+let envelopeClickStage = 0;
 
 rose.addEventListener("click", () => {
 
@@ -185,14 +186,15 @@ rose.addEventListener("click", () => {
   }
 });
 
-// Envelope click: first opens flap, second hides envelope and shows letter
+// Envelope click logic: first click flap unfolds, second click show letter & hide envelope
 envelope.addEventListener("click", () => {
-  if (!envelopeClicked) {
+  if (envelopeClickStage === 0) {
     envelope.classList.add("open"); // flap opens
-    envelopeClicked = true;
-  } else {
+    envelopeClickStage = 1;
+  } else if (envelopeClickStage === 1) {
     envelope.style.display = "none";   // envelope disappears
-    letterJPEG.style.opacity = 1;      // show letter
+    letterJPEG.style.opacity = 1;      // show letter JPEG
+    envelopeClickStage = 2; // no more clicks
   }
 });
 </script>
