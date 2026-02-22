@@ -2,6 +2,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<title>Letter</title>
+
 <style>
 body {
   margin: 0;
@@ -98,7 +100,7 @@ body {
   transform: rotateX(180deg);
 }
 
-/* Paper inside envelope */
+/* Paper inside */
 .paper-inside {
   position: absolute;
   width: 80%;
@@ -117,7 +119,7 @@ body {
   transform: translateX(-50%) translateY(-20px);
 }
 
-/* Final Letter JPEG */
+/* Final Letter */
 #letter-jpeg {
   position: absolute;
   max-width: 80%;
@@ -156,7 +158,12 @@ const music = document.getElementById("music");
 const envelope = document.getElementById("envelope");
 const letter = document.getElementById("letter-jpeg");
 
-const slides = [img1, img2, img3, img4];
+const slides = [
+  document.getElementById("img1"),
+  document.getElementById("img2"),
+  document.getElementById("img3"),
+  document.getElementById("img4")
+];
 
 let stage = 0;
 let envelopeStage = 0;
