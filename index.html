@@ -3,78 +3,109 @@
 <head>
 <meta charset="UTF-8">
 <title>Letter</title>
-
 <style>
-
-body{
-  margin:0;
-  height:100vh;
-  background:black;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  overflow:hidden;
-  position:relative;
+body {
+  margin: 0;
+  height: 100vh;
+  background: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
 }
 
-/* rose */
-#rose{
-  width:150px;
-  cursor:pointer;
+/* ROSE */
+#rose {
+  width: 150px;
+  cursor: pointer;
+  z-index: 100;
+  position: relative;
 }
 
-/* slides */
-.slide{
-  position:absolute;
-  max-width:80%;
-  max-height:80%;
-  opacity:0;
-  transition:opacity 1.5s ease;
+/* Pulse */
+.pulse {
+  animation: pulse 1s ease-in-out 3;
 }
 
-.show{
-  opacity:1;
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
 }
 
-/* envelope png */
-#envelope{
-  width:120px;
-  position:absolute;
-  cursor:pointer;
-  opacity:0;
-  transition:opacity 1s ease;
+/* Slides */
+.slide {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(1);
+  max-width: 80%;
+  max-height: 80%;
+  opacity: 0;
+  transition: opacity 1.5s ease, transform 6s ease;
+  pointer-events: none;
+  box-shadow: 0 0 60px rgba(255,255,255,0.5);
+  border-radius: 8px;
 }
 
-/* final letter */
-#letter{
-  position:absolute;
-  max-width:80%;
-  max-height:80%;
-  opacity:0;
-  transition:opacity 1s ease;
+.show {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1.05);
 }
 
+/* Envelope PNG */
+#envelope {
+  width: 120px;
+  position: absolute;
+  opacity: 0;
+  transition: opacity 1.5s ease;
+  z-index: 50;
+  cursor: pointer;
+}
+
+#envelope.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Final Letter */
+#letter-jpeg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 80%;
+  max-height: 80%;
+  opacity: 0;
+  transition: opacity 1s ease;
+  border-radius: 12px;
+  box-shadow: 0 0 60px rgba(255,255,255,0.5);
+  z-index: 60;
+}
 </style>
 </head>
-
 <body>
 
-<img id="rose" src="rose.png">
+<img id="rose" src="IMF_5645.png">
 
-<img class="slide" id="img1" src="photo1.jpg">
-<img class="slide" id="img2" src="photo2.jpg">
-<img class="slide" id="img3" src="photo3.jpg">
-<img class="slide" id="img4" src="photo4.jpg">
+<img class="slide" id="img1" src="IMG_0018.jpeg">
+<img class="slide" id="img2" src="att.lJN1aEaZPYIps0uajm-ESW_fqq2MwtbIaiAKoqZFc3kM.jpeg">
+<img class="slide" id="img3" src="att.FM1esYjuS4zu_N7hMkL4UKk-AOGI7x6U7xnDHmOFjgFE.jpeg">
+<img class="slide" id="img4" src="IMG_1533.jpeg">
 
 <img id="envelope" src="envelope.png">
 
-<img id="letter" src="letter.png">
+<img id="letter-jpeg" src="IMG_5647.jpeg">
 
 <audio id="music" src="song.mp3"></audio>
 
 <script>
-
 const rose = document.getElementById("rose");
+const music = document.getElementById("music");
+const envelope = document.getElementById("envelope");
+const letter = document.getElementById("letter-jpeg");
+
 const slides = [
   document.getElementById("img1"),
   document.getElementById("img2"),
@@ -82,47 +113,51 @@ const slides = [
   document.getElementById("img4")
 ];
 
-const envelope = document.getElementById("envelope");
-const letter = document.getElementById("letter");
-const music = document.getElementById("music");
+let stage = 0;
+let envelopeStage = 0;
 
-let started = false;
+rose.addEventListener("click", () => {
 
-rose.onclick = () => {
+  if (stage === 0) {
+    rose.classList.add("pulse");
+    stage = 1;
+    return;
+  }
 
-  if(started) return;
-  started = true;
+  if (stage === 1) {
+    stage = 2;
+    rose.style.display = "none";
+    music.play();
 
-  rose.style.display = "none";
-  music.play();
+    let delay = 0;
 
-  let delay = 0;
+    slides.forEach((slide, index) => {
+      setTimeout(() => {
+        if (index > 0) slides[index - 1].classList.remove("show");
+        slide.classList.add("show");
+      }, delay);
+      delay += 4000;
+    });
 
-  slides.forEach((slide, i) => {
-
-    setTimeout(()=>{
-      if(i>0) slides[i-1].classList.remove("show");
-      slide.classList.add("show");
+    setTimeout(() => {
+      slides[3].classList.remove("show");
     }, delay);
 
-    delay += 4000;
+    setTimeout(() => {
+      envelope.classList.add("visible");
+    }, delay + 2000);
+  }
+});
 
-  });
+envelope.addEventListener("click", () => {
 
-  setTimeout(()=>{
-    slides[3].classList.remove("show");
-    envelope.style.opacity = 1;
-  }, delay);
+  if (envelopeStage === 0) {
+    envelope.style.display = "none";
+    letter.style.opacity = 1;
+    envelopeStage = 1;
+  }
 
-};
-
-envelope.onclick = () => {
-
-  envelope.style.display = "none";
-  letter.style.opacity = 1;
-
-};
-
+});
 </script>
 
 </body>
