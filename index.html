@@ -54,12 +54,11 @@ body {
   transform: translate(-50%, -50%) scale(1.05);
 }
 
-/* Envelope PNG */
 #envelope {
-  width: 250px; /* BIGGER now */
+  width: 250px;  /* keep your bigger size */
   position: absolute;
   opacity: 0;
-  pointer-events: none; /* disable until visible */
+  pointer-events: auto;  /* THIS MAKES IT CLICKABLE */
   transition: opacity 1.5s ease;
   z-index: 50;
   cursor: pointer;
