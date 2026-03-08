@@ -54,14 +54,15 @@ body {
   transform: translate(-50%, -50%) scale(1.05);
 }
 
+/* Envelope PNG */
 #envelope {
-  width: 250px;          /* big enough to see */
+  width: 250px;           /* bigger */
   position: absolute;
-  top: 50%;              /* center vertically */
-  left: 50%;             /* center horizontally */
+  top: 50%;
+  left: 50%;
   transform: translate(-50%, -50%);
   opacity: 0;
-  pointer-events: none;  /* cannot click until visible */
+  pointer-events: none;   /* disable until visible */
   z-index: 50;
   cursor: pointer;
   transition: opacity 1.5s ease;
@@ -69,7 +70,7 @@ body {
 
 #envelope.visible {
   opacity: 1;
-  pointer-events: auto;  /* ENABLE CLICK WHEN VISIBLE */
+  pointer-events: auto;   /* enable click */
 }
 
 /* Final Letter */
@@ -148,6 +149,7 @@ rose.addEventListener("click", () => {
 
     setTimeout(() => {
       envelope.classList.add("visible");
+      envelope.style.zIndex = 9999;  // ✅ GUARANTEED CLICKABLE
     }, delay + 2000);
   }
 });
