@@ -56,9 +56,10 @@ body {
 
 /* Envelope PNG */
 #envelope {
-  width: 120px;
+  width: 250px; /* BIGGER now */
   position: absolute;
   opacity: 0;
+  pointer-events: none; /* disable until visible */
   transition: opacity 1.5s ease;
   z-index: 50;
   cursor: pointer;
@@ -66,7 +67,7 @@ body {
 
 #envelope.visible {
   opacity: 1;
-  pointer-events: auto;
+  pointer-events: auto; /* enable clicks when visible */
 }
 
 /* Final Letter */
@@ -87,11 +88,11 @@ body {
 </head>
 <body>
 
-<img id="rose" src="IMF_5645.png">
+<img id="rose" src="IMG_5645.png">
 
 <img class="slide" id="img1" src="IMG_0018.jpeg">
-<img class="slide" id="img2" src="att.lJN1aEaZPYIps0uajm-ESW_fqq2MwtbIaiAKoqZFc3kM.jpeg">
-<img class="slide" id="img3" src="att.FM1esYjuS4zu_N7hMkL4UKk-AOGI7x6U7xnDHmOFjgFE.jpeg">
+<img class="slide" id="img2" src="photo1.JPG">
+<img class="slide" id="img3" src="photo2.JPG">
 <img class="slide" id="img4" src="IMG_1533.jpeg">
 
 <img id="envelope" src="envelope.png">
@@ -150,13 +151,11 @@ rose.addEventListener("click", () => {
 });
 
 envelope.addEventListener("click", () => {
-
   if (envelopeStage === 0) {
     envelope.style.display = "none";
     letter.style.opacity = 1;
     envelopeStage = 1;
   }
-
 });
 </script>
 
