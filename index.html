@@ -55,18 +55,21 @@ body {
 }
 
 #envelope {
-  width: 250px;  /* keep your bigger size */
+  width: 250px;          /* big enough to see */
   position: absolute;
+  top: 50%;              /* center vertically */
+  left: 50%;             /* center horizontally */
+  transform: translate(-50%, -50%);
   opacity: 0;
-  pointer-events: auto;  /* THIS MAKES IT CLICKABLE */
-  transition: opacity 1.5s ease;
+  pointer-events: none;  /* cannot click until visible */
   z-index: 50;
   cursor: pointer;
+  transition: opacity 1.5s ease;
 }
 
 #envelope.visible {
   opacity: 1;
-  pointer-events: auto; /* enable clicks when visible */
+  pointer-events: auto;  /* ENABLE CLICK WHEN VISIBLE */
 }
 
 /* Final Letter */
